@@ -1,0 +1,335 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRON X | 3D Fitness</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+:root{--red:#ff3030;--black:#080808;--panel:#151515;--white:#f5f5f5}
+body{background:var(--black);color:var(--white);font-family:Arial,sans-serif}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-weight:bold}
+nav{position:fixed;top:0;width:100%;z-index:10;background:#080808ed;
+padding:22px 7%;display:flex;justify-content:space-between;align-items:center;
+border-bottom:1px solid #292929}
+.logo{font-size:27px;font-weight:1000;font-style:italic}
+.logo span{color:var(--red)}
+.links{display:flex;gap:27px;font-size:13px;text-transform:uppercase}
+.links a:hover{color:var(--red)}
+.menu{display:none;background:none;border:0;color:white;font-size:26px}
+.btn{display:inline-block;padding:15px 23px;background:var(--red);color:white;
+border:2px solid var(--red);font-size:12px;letter-spacing:1px;transition:.25s}
+.btn:hover{background:transparent;color:var(--red);transform:translateY(-3px)}
+.btn.dark{background:transparent;border-color:#555}
+.hero{min-height:100vh;padding:145px 8% 80px;display:grid;
+grid-template-columns:1fr 1fr;align-items:center;gap:25px;
+background:radial-gradient(ellipse at 78% 45%,#4b1010 0%,#170b0b 28%,#080808 67%);
+overflow:hidden}
+.tag{font-size:12px;letter-spacing:4px;color:var(--red);font-weight:bold;margin-bottom:24px}
+h1{font-size:clamp(55px,8vw,105px);line-height:.88;letter-spacing:-5px;font-weight:1000}
+h1 span{display:block;color:var(--red)}
+.hero p,.intro{color:#aaa;line-height:1.8;margin:25px 0;max-width:490px}
+.actions{display:flex;gap:13px;flex-wrap:wrap}
+.scene{height:480px;display:grid;place-items:center;perspective:1000px;position:relative}
+.ring{position:absolute;width:380px;height:380px;border:2px solid #ff303055;
+border-radius:50%;transform:rotateX(65deg);animation:orbit 8s linear infinite}
+.ring.r2{width:300px;height:300px;border-color:#ff303099;animation-duration:5s}
+.ring.r3{width:440px;height:440px;border-style:dashed;animation-duration:15s}
+@keyframes orbit{to{transform:rotateX(65deg) rotateZ(360deg)}}
+.dumbbell{position:relative;width:270px;height:70px;transform-style:preserve-3d;
+animation:lift 4s ease-in-out infinite,spin 12s linear infinite}
+.bar{position:absolute;left:30px;right:30px;top:28px;height:15px;
+background:linear-gradient(#aaa,#444,#bbb);border-radius:5px;box-shadow:0 0 18px #ff303044}
+.plate{position:absolute;top:0;width:42px;height:70px;border-radius:8px;
+background:linear-gradient(90deg,#350909,#ff3030,#8b1111,#270707);
+border:2px solid #ff5b5b;box-shadow:0 0 20px #ff303044}
+.p1{left:0}.p2{left:43px;width:28px;height:56px;top:7px}
+.p3{right:43px;width:28px;height:56px;top:7px}.p4{right:0}
+@keyframes lift{50%{translate:0 -25px;rotate:-7deg}}
+@keyframes spin{0%,100%{transform:rotateY(-15deg) rotateX(10deg)}50%{transform:rotateY(20deg) rotateX(-10deg)}}
+.metrics{display:flex;gap:35px;margin-top:40px;flex-wrap:wrap}
+.metrics strong{font-size:27px;display:block;color:var(--red)}
+.metrics small{font-size:10px;letter-spacing:1px;color:#aaa}
+section{padding:95px 8%}
+.head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:40px}
+h2{font-size:clamp(35px,5vw,60px);letter-spacing:-2px;text-transform:uppercase}
+h2 span{color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--panel);border:1px solid #292929;padding:28px;transition:.3s;position:relative}
+.card:hover{transform:translateY(-8px);border-color:var(--red);box-shadow:0 15px 40px #ff303015}
+.card h3{font-size:23px;text-transform:uppercase;margin:20px 0 12px}
+.card p{color:#aaa;font-size:14px;line-height:1.8}
+.art{height:145px;margin:-28px -28px 25px;display:grid;place-items:center;
+font-size:65px;background:radial-gradient(circle at center,#681717,#1b1111 70%)}
+.index{font-size:11px;letter-spacing:3px;color:var(--red)}
+.card a,.card button{margin-top:24px}
+.text-link{display:inline-block;color:var(--red);font-size:12px;font-weight:bold}
+.about{background:#111}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:center}
+.giant{height:390px;background:radial-gradient(circle,#501414,#171111 55%,#101010);
+display:grid;place-items:center;border:1px solid #492020;overflow:hidden}
+.giant span{font-size:clamp(90px,15vw,170px);font-weight:1000;font-style:italic;
+color:transparent;-webkit-text-stroke:2px var(--red);transform:rotate(-12deg);
+text-shadow:0 0 45px #ff303030;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{transform:rotate(5deg) scale(1.08);text-shadow:0 0 60px #ff303077}}
+.benefits{display:grid;gap:17px;margin:28px 0;color:#ddd}
+.benefits div:before{content:"✦";color:var(--red);margin-right:12px}
+.schedule{background:#101010}
+table{width:100%;border-collapse:collapse;margin-top:25px}
+th,td{padding:18px 12px;text-align:left;border-bottom:1px solid #303030;font-size:13px}
+th{color:var(--red);font-size:11px;letter-spacing:1px}
+td{color:#ccc}
+tr:hover td{background:#ff30300b}
+.price{font-size:42px;font-weight:1000;margin:20px 0}
+.price small{font-size:12px;color:#999;font-weight:normal}
+.card ul{list-style:none;display:grid;gap:14px;margin:25px 0;color:#bbb;font-size:13px}
+.card li:before{content:"✓";color:var(--red);margin-right:10px}
+.hot{border-color:var(--red);background:linear-gradient(145deg,#321212,#151515)}
+.popular{position:absolute;right:0;top:0;background:var(--red);padding:8px 12px;font-size:10px}
+.coach-icon{font-size:55px;margin:20px 0;color:var(--red)}
+.role{font-size:11px;letter-spacing:2px;color:var(--red)}
+.banner{background:var(--red);padding:70px 8%;display:flex;justify-content:space-between;
+align-items:center;gap:25px;color:white}
+.banner .btn{background:#080808;border-color:#080808}
+.contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px}
+form{display:grid;gap:15px}
+input,select,textarea{width:100%;padding:16px;background:#151515;border:1px solid #383838;
+color:white;font:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--red)}
+textarea{min-height:120px;resize:vertical}
+#status{color:#ff6262;font-size:13px;line-height:1.7}
+footer{padding:30px 8%;border-top:1px solid #292929;display:flex;justify-content:space-between;
+gap:20px;flex-wrap:wrap;color:#888;font-size:12px}
+@media(max-width:850px){
+ .links{display:none;position:absolute;top:70px;left:0;width:100%;padding:25px;
+ background:#111;flex-direction:column}.links.open{display:flex}.menu{display:block}
+ .hero{grid-template-columns:1fr;padding-top:140px}.scene{height:330px}
+ .grid{grid-template-columns:1fr 1fr}.about-layout,.contact-layout{grid-template-columns:1fr}
+ .head{align-items:start;flex-direction:column}.banner{align-items:start;flex-direction:column}
+}
+@media(max-width:560px){
+ section{padding:70px 6%}.hero{padding-left:6%;padding-right:6%}
+ .grid{grid-template-columns:1fr}.scene{height:280px}.ring{scale:.75}
+ .dumbbell{scale:.8}.metrics{gap:20px}h1{letter-spacing:-3px}
+ th,td{padding:12px 5px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="#home" class="logo">IRON <span>X.</span></a>
+<div class="links" id="links">
+<a href="#home">Home</a><a href="#about">About</a>
+<a href="#programs">Programs</a><a href="#schedule">Schedule</a>
+<a href="#plans">Plans</a><a href="#contact">Contact</a>
+</div>
+<button class="menu" id="menu" aria-label="Open navigation">☰</button>
+</nav>
+
+<header class="hero" id="home">
+<div>
+<div class="tag">NO EXCUSES. JUST RESULTS.</div>
+<h1>FORGE YOUR <span>POWER.</span></h1>
+<p>Enter a new era of fitness. Build strength, sharpen your mindset and turn your goals into reality at IRON X.</p>
+<div class="actions">
+<a href="#plans" class="btn">JOIN THE MOVEMENT ↗</a>
+<a href="#programs" class="btn dark">EXPLORE GYM</a>
+</div>
+<div class="metrics">
+<div><strong>01</strong><small>YOUR NEW START</small></div>
+<div><strong>100%</strong><small>YOUR COMMITMENT</small></div>
+<div><strong>24/7*</strong><small>YOUR AMBITION</small></div>
+</div>
+</div>
+<div class="scene">
+<div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div>
+<div class="dumbbell">
+<div class="bar"></div><div class="plate p1"></div><div class="plate p2"></div>
+<div class="plate p3"></div><div class="plate p4"></div>
+</div>
+</div>
+</header>
+
+<section id="about" class="about">
+<div class="about-layout">
+<div class="giant"><span>IX</span></div>
+<div>
+<div class="tag">WELCOME TO IRON X</div>
+<h2>BUILT FOR <span>BEASTS.</span></h2>
+<p class="intro">Your fitness journey deserves a place that challenges your limits. Train with purpose, stay consistent and discover what you're capable of.</p>
+<div class="benefits">
+<div>Strength and resistance training</div>
+<div>Cardio and conditioning sessions</div>
+<div>Personal training options</div>
+<div>Supportive fitness community</div>
+</div>
+<a href="#contact" class="btn">TALK TO OUR TEAM ↗</a>
+</div>
+</div>
+</section>
+
+<section id="programs">
+<div class="head">
+<div><div class="tag">PICK YOUR BATTLE</div><h2>OUR <span>PROGRAMS.</span></h2></div>
+<p class="intro">Different goals. One stronger you.</p>
+</div>
+<div class="grid">
+<article class="card"><div class="art">🏋️</div><div class="index">01 / STRENGTH</div>
+<h3>Muscle Factory</h3><p>Build strength and muscle with structured resistance workouts and progressive training.</p>
+<a href="#contact" class="text-link choose" data-program="Muscle Factory">CHOOSE WORKOUT ↗</a></article>
+<article class="card"><div class="art">🔥</div><div class="index">02 / CONDITIONING</div>
+<h3>Burn Zone</h3><p>Push your endurance with dynamic cardio, interval training and full-body conditioning.</p>
+<a href="#contact" class="text-link choose" data-program="Burn Zone">CHOOSE WORKOUT ↗</a></article>
+<article class="card"><div class="art">🥊</div><div class="index">03 / PERFORMANCE</div>
+<h3>Combat Fit</h3><p>Improve coordination, agility and stamina with boxing-inspired fitness sessions.</p>
+<a href="#contact" class="text-link choose" data-program="Combat Fit">CHOOSE WORKOUT ↗</a></article>
+</div>
+</section>
+
+<section id="schedule" class="schedule">
+<div class="tag">MAKE EVERY SESSION COUNT</div>
+<h2>WEEKLY <span>ROUTINE.</span></h2>
+<p class="intro">Example training schedule — customize it for your gym.</p>
+<table>
+<thead><tr><th>DAY</th><th>MORNING</th><th>AFTERNOON</th><th>EVENING</th></tr></thead>
+<tbody>
+<tr><td>MON</td><td>Strength</td><td>Open Gym</td><td>HIIT</td></tr>
+<tr><td>TUE</td><td>Cardio</td><td>Mobility</td><td>Combat Fit</td></tr>
+<tr><td>WED</td><td>Strength</td><td>Open Gym</td><td>Conditioning</td></tr>
+<tr><td>THU</td><td>HIIT</td><td>Recovery</td><td>Strength</td></tr>
+<tr><td>FRI</td><td>Full Body</td><td>Open Gym</td><td>Boxing Fitness</td></tr>
+<tr><td>SAT</td><td>Group Training</td><td>Open Gym</td><td>Mobility</td></tr>
+</tbody>
+</table>
+<p style="font-size:11px;color:#888;margin-top:15px">*Demo timetable and access information. Replace with actual gym details.</p>
+</section>
+
+<section id="plans">
+<div class="head">
+<div><div class="tag">INVEST IN YOURSELF</div><h2>MEMBERSHIP <span>PLANS.</span></h2></div>
+<p class="intro">Choose your level and start your journey.</p>
+</div>
+<div class="grid">
+<article class="card">
+<div class="index">01 / BASIC</div><h3>Starter</h3><div class="price">$25<small> / month</small></div>
+<p>For getting into a consistent fitness routine.</p>
+<ul><li>Gym access</li><li>Strength equipment</li><li>Locker facilities</li></ul>
+<button class="btn dark select-plan" data-plan="Starter">SELECT STARTER</button>
+</article>
+<article class="card hot">
+<div class="popular">BEST VALUE</div><div class="index">02 / ADVANCED</div>
+<h3>Warrior</h3><div class="price">$49<small> / month</small></div>
+<p>For people ready to train with purpose.</p>
+<ul><li>All Starter benefits</li><li>Group fitness classes</li><li>Progress check-ins</li></ul>
+<button class="btn select-plan" data-plan="Warrior">SELECT WARRIOR</button>
+</article>
+<article class="card">
+<div class="index">03 / ELITE</div><h3>Legend</h3><div class="price">$89<small> / month</small></div>
+<p>For a more personalized training experience.</p>
+<ul><li>All Warrior benefits</li><li>Trainer consultation</li><li>Personalized goal review</li></ul>
+<button class="btn dark select-plan" data-plan="Legend">SELECT LEGEND</button>
+</article>
+</div>
+<p style="font-size:11px;color:#888;margin-top:20px">*Sample prices only. Change prices and currency to match your actual business.</p>
+</section>
+
+<div class="banner">
+<div><div class="tag" style="color:#fff">YOUR TIME IS NOW</div><h2>MAKE YOURSELF <br>UNSTOPPABLE.</h2></div>
+<a href="#contact" class="btn">GET STARTED ↗</a>
+</div>
+
+<section id="contact">
+<div class="contact-layout">
+<div>
+<div class="tag">LET'S TALK FITNESS</div>
+<h2>READY TO <span>RISE?</span></h2>
+<p class="intro">Fill in the form and prepare an enquiry about your preferred membership and training program.</p>
+<p style="color:var(--red);font-size:13px;margin-top:20px">✦ YOUR GOALS. YOUR GRIND. YOUR RESULTS.</p>
+</div>
+<form id="form">
+<input id="name" placeholder="Your full name" required>
+<input id="email" type="email" placeholder="Your email address" required>
+<select id="plan" required>
+<option value="">Select membership plan</option>
+<option>Starter</option><option>Warrior</option><option>Legend</option>
+</select>
+<select id="program">
+<option value="">Select training program (optional)</option>
+<option>Muscle Factory</option><option>Burn Zone</option><option>Combat Fit</option>
+</select>
+<textarea id="message" placeholder="Tell us your fitness goal"></textarea>
+<button class="btn" type="submit">PREPARE ENQUIRY ↗</button>
+<p id="status" role="status"></p>
+</form>
+</div>
+</section>
+
+<footer>
+<div class="logo">IRON <span>X.</span></div>
+<div>TRAIN HARD. STAY HUMBLE.</div>
+<div>© 2026 IRON X FITNESS</div>
+</footer>
+
+<script>
+const links = document.getElementById('links');
+document.getElementById('menu').addEventListener('click',()=>{
+  links.classList.toggle('open');
+});
+links.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click',()=>links.classList.remove('open'));
+});
+
+document.querySelectorAll('.select-plan').forEach(button=>{
+  button.addEventListener('click',()=>{
+    document.getElementById('plan').value=button.dataset.plan;
+    document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+    document.getElementById('status').textContent=
+      button.dataset.plan+' plan selected. Enter your details below.';
+  });
+});
+
+document.querySelectorAll('.choose').forEach(link=>{
+  link.addEventListener('click',()=>{
+    document.getElementById('program').value=link.dataset.program;
+  });
+});
+
+document.getElementById('form').addEventListener('submit',event=>{
+  event.preventDefault();
+  const name=document.getElementById('name').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const plan=document.getElementById('plan').value;
+  const program=document.getElementById('program').value||'Not selected';
+  const message=document.getElementById('message').value.trim();
+
+  if(!name||!email||!plan){
+    document.getElementById('status').textContent=
+      'Please enter your name, email and membership plan.';
+    return;
+  }
+
+  // Replace this with your gym's real email address.
+  const gymEmail='YOUR_EMAIL@example.com';
+
+  if(gymEmail==='YOUR_EMAIL@example.com'){
+    document.getElementById('status').textContent=
+      'Form works! Replace YOUR_EMAIL@example.com in the code to enable email enquiries.';
+    return;
+  }
+
+  const subject=encodeURIComponent('New IRON X Membership Enquiry');
+  const body=encodeURIComponent(
+    'Name: '+name+'\nEmail: '+email+'\nPlan: '+plan+
+    '\nProgram: '+program+'\nMessage: '+message
+  );
+  document.getElementById('status').textContent='Opening your email app…';
+  window.location.href='mailto:'+gymEmail+'?subject='+subject+'&body='+body;
+});
+</script>
+</body>
+</html>
+```
